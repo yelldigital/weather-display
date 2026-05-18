@@ -1,24 +1,19 @@
 name: Update Tower Weather Screenshot
-
 on:
   schedule:
-    - cron: '0 1,7,15 * * *'  # at 00:00, 08:00 and 16:00 every day
+    - cron: '0 1,7,15 * * *'
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   screenshot:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-
+          node-version: '22'
       - name: Install Puppeteer deps
         run: |
           sudo apt-get update \
@@ -26,16 +21,12 @@ jobs:
                libnss3 libatk1.0-0 libcups2 \
                libxcomposite1 libxrandr2 libxss1 \
                libpangocairo-1.0-0 libgbm1
-
       - name: Init npm
         run: npm init -y
-
       - name: Install Puppeteer
         run: npm install puppeteer
-
       - name: Run Tower screenshot
         run: node screenshot-tower.js
-
       - name: Commit & push Tower PNG
         run: |
           git config user.name "github-actions[bot]"
