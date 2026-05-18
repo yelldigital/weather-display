@@ -1,0 +1,27 @@
+name: Update Old Faithful Weather Screenshot
+permissions:
+  contents: write
+on:
+  schedule:
+    - cron: '0 0,8,16 * * *'
+  workflow_dispatch:
+jobs:
+  screenshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Puppeteer
+        run: npm install puppeteer
+      - name: Run Old Faithful screenshot
+        run: node screenshot-oldfaithful.js
+      - name: Commit and push Old Faithful png
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "actions@github.com"
+          git add weather-oldfaithful.png
+          git commit -m "chore: update weather-oldfaithful.png [skip ci]" || echo "No changes to commit"
+          git push
