@@ -16,7 +16,7 @@ jobs:
           node-version: '22'
       - name: Install Puppeteer
         run: npm install puppeteer
-      - name: Run Mammoth screenshot
+      - name: Run Grant screenshot
         run: node screenshot-grant.js
       - name: Commit and push Grant png
         run: |
